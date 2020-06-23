@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Enumerable
 
 module Enumerable
@@ -20,6 +18,7 @@ module Enumerable
 
   def my_each_index
     return to_enum(__method__) unless block_given?
+
     length.times do |i|
       yield self[i], i
     end
@@ -32,8 +31,6 @@ end
 #   size.times { |i| yield(to_a[i]) }
 #   self
 # end
-
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
 friends = %w[Jessica Michelle Elias Castañeda]
 
