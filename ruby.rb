@@ -69,8 +69,17 @@ module Enumerable
     end
     true
   end
+
+  def my_count(*_args)
+    @var = self
+    return @var.length - (self-_args).length
+  end
 end
 
+ary = [1,2,4,2,2,2,2,2,2]
+p ary.count               #=> 4
+p ary.my_count(2)            #=> 2
+=begin
 p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
 p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
 p %w[ant bear cat].my_none?(/d/) #=> true
@@ -79,6 +88,7 @@ p [].my_none? #=> true
 p [nil].my_none? #=> true
 p [nil, false].my_none? #=> true
 p [nil, false, true].my_none? #=> false
+=end
 
 # p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
 # p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
