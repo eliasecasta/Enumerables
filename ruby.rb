@@ -30,10 +30,30 @@ module Enumerable
     end
     array
   end
+
+  def my_all?(*_args)
+    if block_given?
+      my_each { |i| return false unless yield i }
+    elsif args != [] && args[0].class != Regexp
+      my_each { |i| return false unless i.is_a?(args[0]) }
+    elsif args[0].class == Regexp
+      my_each { |i| return false if (args[0] =~ i).nil? }
+    else
+      my_each { |i| return false unless i.nil? }
+    end
+    true
+  end
 end
-friends = %w[Brian Brian Brian Leo Leila Brian Brian Arun Brian Sharon]
-friends.my_select { |friend| friend == 'Brian' }
-friends.my_select { |friend| friend != 'Brian' }
+
+# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+# p [1, 2i, 3.14].my_all?(Numeric) #=> true
+# p [nil, true, 99].my_all? #=> false
+# p [].my_all? #=> true
+# p %w[asnt beart cat].my_all?(/t/) #=> false
+# friends = %w[Brian Brian Brian Leo Leila Brian Brian Arun Brian Sharon]
+# friends.my_select { |friend| friend == 'Brian' }
+# friends.my_select { |friend| friend != 'Brian' }
 # def my_each
 #   return to_enum(__method__) unless block_given?
 #   size.times { |i| yield(to_a[i]) }
