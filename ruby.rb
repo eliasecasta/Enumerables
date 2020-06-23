@@ -34,16 +34,36 @@ module Enumerable
   def my_all?(*_args)
     if block_given?
       my_each { |i| return false unless yield i }
-    elsif args != [] && args[0].class != Regexp
-      my_each { |i| return false unless i.is_a?(args[0]) }
-    elsif args[0].class == Regexp
-      my_each { |i| return false if (args[0] =~ i).nil? }
+    elsif _args != [] && _args[0].class != Regexp
+      my_each { |i| return false unless i.is_a?(_args[0]) }
+    elsif _args[0].class == Regexp
+      my_each { |i| return false if (_args[0] =~ i).nil? }
     else
       my_each { |i| return false unless i.nil? }
     end
     true
   end
+
+  def my_any?(*_args)
+    if block_given?
+      my_each { |i| return true if yield i }
+    elsif _args != [] && _args[0].class != Regexp
+      my_each { |i| return true if i.is_a?(_args[0]) }
+    elsif _args[0].class == Regexp
+      my_each { |i| return true unless (_args[0] =~ i).nil? }
+    else
+      my_each { |i| return true if i.nil? }
+    end
+    false
+  end
 end
+
+p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+p %w[ant bear cat].my_any?(/d/) #=> false
+p [nil, true, 99].my_any?(Integer) #=> true
+p [nil, true, 99].my_any? #=> true
+p [].my_any? #=> false
 
 # p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
 # p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
@@ -54,6 +74,7 @@ end
 # friends = %w[Brian Brian Brian Leo Leila Brian Brian Arun Brian Sharon]
 # friends.my_select { |friend| friend == 'Brian' }
 # friends.my_select { |friend| friend != 'Brian' }
+
 # def my_each
 #   return to_enum(__method__) unless block_given?
 #   size.times { |i| yield(to_a[i]) }
