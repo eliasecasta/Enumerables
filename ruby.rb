@@ -85,10 +85,20 @@ module Enumerable
     end
   end
 
+  def my_map(*_args)
+    return to_enum(__method__) unless block_given?
+    array = []
+
+    each { |i| array << (yield i) }
+    array
+  end
+
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
 
 ary = [1, 2, 4, 2, 2, 2, 2, 2, 2]
-p ary.my_count #=> 4
-p ary.my_count(2) #=> 2
-p ary.my_count(&:even?) #=> 3
+# p ary.my_count #=> 4
+# p ary.my_count(2) #=> 2
+# p ary.my_count(&:even?) #=> 3
+
+p (1..4).my_map { |i| i * i }
