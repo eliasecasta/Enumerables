@@ -1,7 +1,6 @@
-require_relative ruby.rb
-
-# ary = [1, 2, 4, 2, 2, 2, 2, 2, 2] - [2]
-# p ary.count #=> 4
+require ruby.rb
+# ary = [1, 2, 4, 2, 2, 2, 2, 2, 2]
+p [4,5,6,4].count #=> 4
 # p ary.my_count(2) #=> 2
 # p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
 # p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
