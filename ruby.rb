@@ -61,25 +61,34 @@ module Enumerable
 
   def my_none?(*_args)
     if block_given?
-      each { |i| return false if yield i }
+      my_each { |i| return false if yield i }
     elsif _args != [] && _args[0].class != Regexp
-      each { |i| return false if i.is_a?(_args[0]) }
+      my_each { |i| return false if i.is_a?(_args[0]) }
     elsif _args[0].class == Regexp
-      each { |i| return false unless (_args[0] =~ i).nil? }
+      my_each { |i| return false unless (_args[0] =~ i).nil? }
     else
-      each { |i| return false if i == true }
+      my_each { |i| return false if i == true }
     end
     true
   end
 
   def my_count(*_args)
     @var = self
-    !_args.empty? ? @var.length - (self - _args).length : length
+    empty_arr = []
+
+    if block_given?
+      my_each { |i| empty_arr << i if yield i }
+
+      empty_arr.length
+    else
+      !_args.empty? ? @var.length - (self - _args).length : length
+    end
   end
 
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
 
-ary = [1, 2, 4, 2, 2, 2, 2, 2, 2] 
-p ary.count #=> 4
+ary = [1, 2, 4, 2, 2, 2, 2, 2, 2]
+p ary.my_count #=> 4
 p ary.my_count(2) #=> 2
+p ary.my_count(&:even?) #=> 3
