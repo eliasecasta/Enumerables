@@ -87,18 +87,56 @@ module Enumerable
 
   def my_map(*_args)
     return to_enum(__method__) unless block_given?
+
     array = []
 
     each { |i| array << (yield i) }
     array
   end
 
+  def my_inject(*_args)
+    accu = 0
+    sym = 0
+    if _args.length > 1
+      sym = _args[1]
+      accu = _args[0] if _args[0] != 0
+    elsif _args.length == 1
+      if _args[0].class == Symbol
+        sym = _args[0]
+      else
+        accu = _args[0]
+      end
+    end
+    if block_given? && self.to_a[0].is_a?(String)
+      accu=self
+      sym=nil
+      each { |i| accu = yield accu, i }
+    elsif block_given? 
+      each { |i| accu = yield accu, i }
+    else
+      each { |i| accu = accu.method(sym).call(i)}
+    end
+    accu
+  end
+
+
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
 
-ary = [1, 2, 4, 2, 2, 2, 2, 2, 2]
+
+
+p (5..10).my_inject { |sum, u| sum + u }
+
+longest = %w{ cat sheep bear }.my_inject do |memo, word|
+  memo.length > word.length ? memo : word
+end
+p longest 
+
+#accu = accu.method(sym).call(i)
+#p(5..10).inject(1) { |_acuu, _word| rest } #=> 151200
+# find the longest word
 # p ary.my_count #=> 4
 # p ary.my_count(2) #=> 2
 # p ary.my_count(&:even?) #=> 3
 
-p (1..4).my_map { |i| i * i }
+# p (1..4).my_map { |i| i * i }
