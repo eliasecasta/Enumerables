@@ -7,7 +7,7 @@ The goal of this project was to duplicate some Enumerable class methods in order
 Input
 
 my_numbers = [5 ,6, 7, 8]
-my_numbers.inject {|sum, number| sum + number}
+my_numbers.my_inject {|sum, number| sum + number}
 
 Output
 
@@ -16,7 +16,7 @@ Output
 
 ## Demo Link
 
-[Live Demo Link](https://repl.it/repls/GentleConsciousEngine).
+[Live Demo Link](https://repl.it/@EliasCastaneda/Enumerables).
 
 ## Built With
 
@@ -43,7 +43,7 @@ Output
 To get a local copy up and running follow these simple example steps.
 
 1. Open the terminal comand line window
-2. `git clone https://github.com/e71az/bubble-sort.git`
+2. `git clone https://github.com/e71az/Enumerables.git`
 3. Open the spec folder and execute the bubble_spec.rb script
 4. Enjoy!
 
@@ -51,7 +51,7 @@ To get a local copy up and running follow these simple example steps.
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check the [Issue page](https://github.com/e71az/bubble-sort/issues).
+Feel free to check the [Issue page](https://github.com/e71az/Enumerables/issues).
 
 ## Show your support
 

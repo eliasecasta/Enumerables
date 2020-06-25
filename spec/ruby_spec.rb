@@ -89,7 +89,7 @@ module Enumerable
     return to_enum(__method__) unless block_given? || args[0].class == Proc
 
     array = []
-    args[0].class == Proc ? each { |i| array << args[0].call(i) } : each { |i| array << (yield i) }
+    args[0].class == Proc ? my_each { |i| array << args[0].call(i) } : my_each { |i| array << (yield i) }
     array
   end
 
@@ -106,11 +106,11 @@ module Enumerable
     if block_given? && to_a[0].is_a?(String)
       accu = self
       sym = nil
-      each { |i| accu = yield accu, i }
+      my_each { |i| accu = yield accu, i }
     elsif block_given?
-      each { |i| accu = yield accu, i }
+      my_each { |i| accu = yield accu, i }
     else
-      each { |i| accu = accu.method(sym).call(i) }
+      my_each { |i| accu = accu.method(sym).call(i) }
     end
     accu
   end
