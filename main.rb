@@ -95,19 +95,22 @@ module Enumerable
   end
 
   def my_inject(*_args)
-    accu = 1
+    accu = 0
     sym = _args.length > 1 ? _args[1] : _args[0]
     if (_args.length > 1) && (_args[0].object_id != :*.object_id)
       accu = _args[0]
     elsif (_args.length == 1) && (_args[0].class != Symbol)
       accu = _args[0]
-    elsif _args[0].object_id != :*.object_id
-      accu = 0
+    elsif _args[0].object_id == :*.object_id && !block_given?
+      accu = 1
     end
     if block_given? && to_a[0].is_a?(String)
       accu = self
       sym = nil
       each { |i| accu = yield accu, i }
+    elsif block_given? && _args.empty?
+      accu = to_a[0]
+      size.times { |i| accu = yield accu, to_a[i + 1] if i < size - 1 }
     elsif block_given?
       each { |i| accu = yield accu, i }
     else
@@ -117,15 +120,22 @@ module Enumerable
   end
 end
 
-p (5..7).my_inject(:+)                             #=> 45
-p (5..7).my_inject(3, :+)  
-p (5..7).my_inject { |sum, n| sum + n }            #=> 45                        #=> 151200
+# Sum some numbers
+p (5..10).my_inject(:+) #=> 45
+# Same using a block and inject
+p (5..10).my_inject { |sum, n| sum + n } #=> 45
+# Multiply some numbers
+p (5..10).my_inject(5, :+) #=> 151200
 # Same using a block
-p (5..6).my_inject(1) { |product, n| product * n } #=> 151200
+p (5..10).my_inject(4) { |product, n| product + n } #=> 151200
 # find the longest word
+longest = %w[cat sheep bear].my_inject do |memo, word|
+  memo.length > word.length ? memo : word
+end
+p longest #=> "sheep"
 
-#accu = accu.method(sym).call(i)
-#p(5..10).inject(1) { |_acuu, _word| rest } #=> 151200
+# accu = accu.method(sym).call(i)
+# p(5..10).inject(1) { |_acuu, _word| rest } #=> 151200
 # find the longest word
 # p ary.my_count #=> 4
 # p ary.my_count(2) #=> 2
