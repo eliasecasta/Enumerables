@@ -120,6 +120,3 @@ end
 def multiply_els(arr)
   arr.inject(:*)
 end
-
-
-
