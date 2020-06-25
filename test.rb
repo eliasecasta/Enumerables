@@ -1,6 +1,6 @@
 require ruby.rb
 # ary = [1, 2, 4, 2, 2, 2, 2, 2, 2]
-p [4,5,6,4].count #=> 4
+# p [4,5,6,4].count #=> 4
 # p ary.my_count(2) #=> 2
 # p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
 # p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
@@ -45,3 +45,14 @@ p [4,5,6,4].count #=> 4
 # hash3 = {}
 # xyz = %w[cat dog wombat].each_with_index { |item, index| hash3[item] = index }
 # p hash3
+
+# find the longest word
+
+# accu = accu.method(sym).call(i)
+# p(5..10).inject(1) { |_acuu, _word| rest } #=> 151200
+# find the longest word
+# p ary.my_count #=> 4
+# p ary.my_count(2) #=> 2
+# p ary.my_count(&:even?) #=> 3
+
+# p (1..4).my_map { |i| i * i }
