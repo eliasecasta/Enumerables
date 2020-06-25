@@ -33,46 +33,46 @@ module Enumerable
     array
   end
 
-  def my_all?(*_args)
+  def my_all?(*args)
     if block_given?
       my_each { |i| return false unless yield i }
-    elsif _args != [] && _args[0].class != Regexp
-      my_each { |i| return false unless i.is_a?(_args[0]) }
-    elsif _args[0].class == Regexp
-      my_each { |i| return false if (_args[0] =~ i).nil? }
+    elsif args != [] && args[0].class != Regexp
+      my_each { |i| return false unless i.is_a?(args[0]) }
+    elsif args[0].class == Regexp
+      my_each { |i| return false if (args[0] =~ i).nil? }
     else
       my_each { |i| return false unless i.nil? }
     end
     true
   end
 
-  def my_any?(*_args)
+  def my_any?(*args)
     if block_given?
       my_each { |i| return true if yield i }
-    elsif _args != [] && _args[0].class != Regexp
-      my_each { |i| return true if i.is_a?(_args[0]) }
-    elsif _args[0].class == Regexp
-      my_each { |i| return true unless (_args[0] =~ i).nil? }
+    elsif args != [] && args[0].class != Regexp
+      my_each { |i| return true if i.is_a?(args[0]) }
+    elsif args[0].class == Regexp
+      my_each { |i| return true unless (args[0] =~ i).nil? }
     else
       my_each { |i| return true if i.nil? }
     end
     false
   end
 
-  def my_none?(*_args)
+  def my_none?(*args)
     if block_given?
       my_each { |i| return false if yield i }
-    elsif _args != [] && _args[0].class != Regexp
-      my_each { |i| return false if i.is_a?(_args[0]) }
-    elsif _args[0].class == Regexp
-      my_each { |i| return false unless (_args[0] =~ i).nil? }
+    elsif args != [] && args[0].class != Regexp
+      my_each { |i| return false if i.is_a?(args[0]) }
+    elsif args[0].class == Regexp
+      my_each { |i| return false unless (args[0] =~ i).nil? }
     else
       my_each { |i| return false if i == true }
     end
     true
   end
 
-  def my_count(*_args)
+  def my_count(*args)
     @var = self
     empty_arr = []
 
@@ -81,26 +81,26 @@ module Enumerable
 
       empty_arr.length
     else
-      !_args.empty? ? @var.length - (self - _args).length : length
+      !args.empty? ? @var.length - (self - args).length : length
     end
   end
 
-  def my_map(*_args)
-    return to_enum(__method__) unless block_given? || _args[0].class == Proc
+  def my_map(*args)
+    return to_enum(__method__) unless block_given? || args[0].class == Proc
 
     array = []
-    _args[0].class == Proc ? each { |i| array << _args[0].call(i) } : each { |i| array << (yield i) }
+    args[0].class == Proc ? each { |i| array << args[0].call(i) } : each { |i| array << (yield i) }
     array
   end
 
-  def my_inject(*_args)
+  def my_inject(*args)
     accu = 1
-    sym = _args.length > 1 ? _args[1] : _args[0]
-    if (_args.length > 1) && (_args[0].object_id != :*.object_id)
-      accu = _args[0]
-    elsif (_args.length == 1) && (_args[0].class != Symbol)
-      accu = _args[0]
-    elsif _args[0].object_id != :*.object_id
+    sym = args.length > 1 ? args[1] : args[0]
+    if (args.length > 1) && (args[0].object_id != :*.object_id)
+      accu = args[0]
+    elsif (args.length == 1) && (args[0].class != Symbol)
+      accu = args[0]
+    elsif args[0].object_id != :*.object_id
       accu = 0
     end
     if block_given? && to_a[0].is_a?(String)
@@ -114,8 +114,12 @@ module Enumerable
     end
     accu
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
 
 def multiply_els(arr)
   arr.inject(:*)
 end
+
+
+
