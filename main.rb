@@ -71,14 +71,14 @@ module Enumerable
   end
 
   def my_count(*args)
-    @var = self
+    @var = to_a
     empty_arr = []
 
     if block_given?
       my_each { |i| empty_arr << i if yield i }
       empty_arr.length
     else
-      !args.empty? ? @var.length - (self - args).length : length
+      !args.empty? ? @var.length - (to_a - args.to_a).length : to_a.length
     end
   end
 
