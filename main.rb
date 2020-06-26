@@ -44,28 +44,54 @@ module Enumerable
   def my_any?(*args)
     if block_given?
       my_each { |i| return true if yield i }
-    elsif args != [] && args[0].class == Class # tiene argumentos y no es un un Regxp
-      my_each { |i| return true if i.is_a?(args[0]) }
-    elsif args[0].class == Regexp
+    elsif !args.empty? && args[0].class == Class
+      my_each { |i| return true if i == args[0] || i.is_a?(args[0]) }
+    elsif !args.empty? && args[0].class == Regexp
       my_each { |i| return true unless (args[0] =~ i).nil? }
     else
-      my_each { |i| return true if i.nil? }
+      args.empty? ? my_each { |i| return true unless i.nil? || i==false } : my_each { |i| return true unless i != args[0] }
     end
     false
   end
 
+  # def my_any?(*args)
+  #   if block_given?
+  #     my_each { |i| return true if yield i }
+  #   elsif args != [] && args[0].class == Class # tiene argumentos y no es un un Regxp
+  #     my_each { |i| return true if i.is_a?(args[0]) }
+  #   elsif args[0].class == Regexp
+  #     my_each { |i| return true unless (args[0] =~ i).nil? }
+  #   else
+  #     my_each { |i| return true if i.nil? }
+  #   end
+  #   false
+  # end
+
   def my_none?(*args)
     if block_given?
       my_each { |i| return false if yield i }
-    elsif args != [] && args[0].class != Regexp
-      my_each { |i| return false if i.is_a?(args[0]) }
-    elsif args[0].class == Regexp
+    elsif !args.empty? && args[0].class == Class
+      my_each { |i| return false if i == args[0] || i.is_a?(args[0]) }
+    elsif !args.empty? && args[0].class == Regexp
       my_each { |i| return false unless (args[0] =~ i).nil? }
-    else
-      my_each { |i| return false if i == true }
+    else                          
+      args.empty? ? my_each { |i| return false if  i==true } : my_each { |i| return false unless i != args[0] }
     end
     true
   end
+
+  # def my_none?(*args)
+  #   if block_given?
+  #     my_each { |i| return false if yield i }
+  #   elsif args != [] && args[0].class != Regexp
+  #     my_each { |i| return false if i.is_a?(args[0]) }
+  #   elsif args[0].class == Regexp
+  #     my_each { |i| return false unless (args[0] =~ i).nil? }
+  #   else
+  #     my_each { |i| return false if i == true }
+  #   end
+  #   true
+  # end
 
   def my_count(*args)
     @var = self
@@ -134,3 +160,29 @@ end
 
 # p [1, 2, 3, 5].my_all?(3) == [1, 2, 3, 5].all?(3)
 # p %w[s s saa q].my_all? == %w[s s saa q].all?
+
+# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+# p %w[ant bear cat].my_any?(/d/)                        #=> false
+# p [nil, true, 99].my_any?(Integer)                     #=> true
+# p [nil, true, 99].my_any?                              #=> true
+# p [].my_any?                                           #=> false
+
+# p %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
+# p %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
+# p %w{ant bear cat}.my_none?(/d/)                        #=> true
+# p [1, 3.14, 42].my_none?(Float)                         #=> false
+# p [].my_none?                                           #=> true
+# p [nil].my_none?                                        #=> true
+# p [nil, false].my_none?                                 #=> true
+# p [nil, false, true].my_none?                           #=> false p 
+
+# p [nil, false, false].my_any?
+# p [nil, false, false].any? 
+# p [nil, false, false].my_any? == [nil, false, false].any? 
+
+# p [3,4,7,11].my_any?(3)
+# p [3,4,7,11].my_any?(3) == [3,4,7,11].any?(3) 
+
+p [nil, false, nil, 5].my_none? 
+p [nil, false, nil, 5].none?
