@@ -5,14 +5,9 @@ module Enumerable
   def my_each
     return to_enum(__method__) unless block_given?
 
-    if is_a?(Array)
-      size.times do |i|
-        yield self[i]
-      end
-    else size.times do |i|
-      yield [keys[i], values[i]]
-    end
-    end
+    size.times {|i| yield(to_a[i])}
+    self
+
   end
 
   def my_each_with_index
