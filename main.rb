@@ -91,26 +91,28 @@ module Enumerable
   end
 
   def my_inject(*args)
-    accu = 1
+    accu = 0
     sym = args.length > 1 ? args[1] : args[0]
-    if (args.length > 1) && (args[0].object_id != :*.object_id)
+    if (args.length > 1) && (args[0].object_id != :*.object_id) || (args.length == 1) && (args[0].class != Symbol)
       accu = args[0]
-    elsif (args.length == 1) && (args[0].class != Symbol)
-      accu = args[0]
-    elsif args[0].object_id != :*.object_id
-      accu = 0
+    elsif args[0].object_id == :*.object_id && !block_given?
+      accu = 1
     end
     if block_given? && to_a[0].is_a?(String)
       accu = self
       sym = nil
-      my_each { |i| accu = yield accu, i }
+      each { |i| accu = yield accu, i }
+    elsif block_given? && args.empty?
+      accu = to_a[0]
+      size.times { |i| accu = yield accu, to_a[i + 1] if i < size - 1 }
     elsif block_given?
-      my_each { |i| accu = yield accu, i }
+      each { |i| accu = yield accu, i }
     else
-      my_each { |i| accu = accu.method(sym).call(i) }
+      each { |i| accu = accu.method(sym).call(i) }
     end
     accu
   end
+
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
 
