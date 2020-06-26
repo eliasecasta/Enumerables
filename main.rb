@@ -75,7 +75,7 @@ module Enumerable
     elsif !args.empty? && args[0].class == Regexp
       my_each { |i| return false unless (args[0] =~ i).nil? }
     else                          
-      args.empty? ? my_each { |i| return false if  i==true } : my_each { |i| return false unless i != args[0] }
+      args.empty? ? my_each { |i| return false unless i.nil? || i== false} : my_each { |i| return false unless i != args[0] }
     end
     true
   end
@@ -184,5 +184,9 @@ end
 # p [3,4,7,11].my_any?(3)
 # p [3,4,7,11].my_any?(3) == [3,4,7,11].any?(3) 
 
-p [nil, false, nil, 5].my_none? 
-p [nil, false, nil, 5].none?
+# p [nil, false, nil,5].my_none? 
+# p [nil, false, nil,5].none?
+
+# p [nil, false, nil, 5].my_none? == [nil, false, nil, 5].none? 
+
+p [3,4,7,11].my_none?(3) == [3,4,7,11].none?(3) 
