@@ -5,17 +5,17 @@ module Enumerable
   def my_each
     return to_enum(__method__) unless block_given?
 
-    size.times {|i| yield(to_a[i])}
+    size.times { |i| yield(to_a[i]) }
     self
-
   end
 
   def my_each_with_index
     return to_enum(__method__) unless block_given?
 
     size.times do |i|
-      yield self[i], i
+      yield to_a[i], i
     end
+    self
   end
 
   def my_select
@@ -31,12 +31,12 @@ module Enumerable
   def my_all?(*args)
     if block_given?
       my_each { |i| return false unless yield i }
-    elsif args != [] && args[0].class != Regexp
-      my_each { |i| return false unless i.is_a?(args[0]) }
-    elsif args[0].class == Regexp
+    elsif !args.empty? && args[0].class == Class
+      my_each { |i| return false unless i == args[0] || i.is_a?(args[0]) }
+    elsif !args.empty? && args[0].class == Regexp
       my_each { |i| return false if (args[0] =~ i).nil? }
     else
-      my_each { |i| return false unless i.nil? }
+      args.empty? ? my_each { |i| return false if i.nil? } : my_each { |i| return false if i != args[0] }
     end
     true
   end
@@ -44,7 +44,7 @@ module Enumerable
   def my_any?(*args)
     if block_given?
       my_each { |i| return true if yield i }
-    elsif args != [] && args[0].class != Regexp
+    elsif args != [] && args[0].class == Class # tiene argumentos y no es un un Regxp
       my_each { |i| return true if i.is_a?(args[0]) }
     elsif args[0].class == Regexp
       my_each { |i| return true unless (args[0] =~ i).nil? }
@@ -115,3 +115,22 @@ end
 def multiply_els(arr)
   arr.inject(:*)
 end
+
+# block = proc { |num| num < (0 + 9) / 2 }
+# p (0..10).my_each(&block) == (0..10).each(&block)
+
+# block = proc { |num, idx| "Num: #{num}, idx: #{idx}\n" }
+# p [0, 1, 5, 10].my_each_with_index(&block) == [0, 1, 5, 10].each_with_index(&block)
+
+# block = proc { |k, v| v < (0 + 9) / 2 }
+# var = { a: 1, b: 2, c: 3, d: 4, e: 5 }.my_each_with_index(&block) =={ a: 1, b: 2, c: 3, d: 4, e: 5 }.each_with_index(&block)
+# p var
+
+# block = proc { |num| num < (0 + 9) / 2 }
+# p (0..10).my_select(&block) == (0..10).select(&block)
+
+# false_block = proc { |num| num > 100 }
+# p (0..10).my_all?(&false_block) == (0..10).all?(&false_block)
+
+# p [1, 2, 3, 5].my_all?(3) == [1, 2, 3, 5].all?(3)
+# p %w[s s saa q].my_all? == %w[s s saa q].all?
