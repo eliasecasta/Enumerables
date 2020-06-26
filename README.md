@@ -22,7 +22,6 @@ Output
 
 - Ruby
 - Rubocop
-- Test-RSpec
 
 ## Authors
 
