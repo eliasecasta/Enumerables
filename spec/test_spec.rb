@@ -1,7 +1,9 @@
 # rubocop:disable Metrics/LineLength
 require_relative '../main.rb'
-let(:array) { [1, 2, 3, 4, 5, 7, 8, 22, 55, 34, 86] }
+
 describe Enumerable do
+  let(:array) { [1, 2, 3, 4, 5, 7, 8, 22, 55, 34, 86] }
+  let(:odd_array) { [ 1,3,5,7,9,11]}
   describe '#my_each' do
     it 'return an array' do
       expect(array.my_all?(1)).to eq(array.all?(1))
@@ -33,13 +35,7 @@ describe Enumerable do
 
   describe '#my_all' do
     it 'my_all should return true on odd array' do
-      expect([3, 5, 7, 11].my_all?(&:odd?)).to eq([3, 5, 7, 11].all?(&:odd?))
-    end
-  end
-
-  describe '#my_all' do
-    it 'my_all should return true if all values are neagtive' do
-      expect([-8, -9, -6].my_all? { |n| n < 0 }).to eq([-8, -9, -6].all? { |n| n < 0 })
+      expect(odd_array.my_all?(&:odd?)).to eq(odd_array.all?(&:odd?))
     end
   end
 
