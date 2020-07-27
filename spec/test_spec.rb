@@ -3,18 +3,14 @@ require_relative '../main.rb'
 
 describe Enumerable do
   let(:array) { [1, 2, 3, 4, 5, 7, 8, 22, 55, 34, 86] }
-  let(:odd_array) { [ 1,3,5,7,9,11]}
+  let(:all_odd_array) { [ 1,3,5,7,9,11]}
+  let(:negative_array) {[-8, -9, -6]}
   describe '#my_each' do
     it 'return an array' do
       expect(array.my_all?(1)).to eq(array.all?(1))
     end
   end
-  # describe '#my_count' do
-  #   it 'return a array' do
-  #     expect([1, 2, 3].my_count).to eq([1, 2, 3].size)
-  #   end
-  # end
-
+  
   describe '#my_each_with_index' do
     it 'return the array values' do
       expect(array.my_each_with_index { |elem, idx| puts "#{elem} : #{idx}" }).to eq(array.each_with_index { |elem, idx| puts "#{elem} : #{idx}" })
@@ -35,19 +31,19 @@ describe Enumerable do
 
   describe '#my_all' do
     it 'my_all should return true on odd array' do
-      expect(odd_array.my_all?(&:odd?)).to eq(odd_array.all?(&:odd?))
+      expect(all_odd_array.my_all?(&:odd?)).to eq(all_odd_array.all?(&:odd?))
     end
   end
 
   describe '#my_all' do
     it 'my_all should return true if all values are neagtive' do
-      expect([-8, -9, -6].my_all? { |n| n < 0 }).to eq([-8, -9, -6].all? { |n| n < 0 })
+      expect(negative_array.my_all? { |n| n < 0 }).to eq(negative_array.all? { |n| n < 0 })
     end
   end
 
   describe '#my_any' do
     it 'my_any should return true if values are even' do
-      expect([7, 10, 3, 5].my_any?(&:even?)).to eq([7, 10, 3, 5].any?(&:even?))
+      expect(array.my_any?(&:even?)).to eq(array.any?(&:even?))
     end
   end
 
@@ -59,7 +55,7 @@ describe Enumerable do
 
   describe '#my_any' do
     it 'my_any should return false if numbers in array not even' do
-      expect([7, 11, 3, 5].my_any?(&:even?)).to eq([7, 11, 3, 5].any?(&:even?))
+      expect(all_odd_array.my_any?(&:even?)).to eq(all_odd_array.any?(&:even?))
     end
   end
 
@@ -112,7 +108,7 @@ describe Enumerable do
 
   describe '#my_none' do
     it 'my_none should return true if the elements are even ' do
-      expect([7, 10, 3, 5].my_none?(&:even?)).to eq([7, 10, 3, 5].none?(&:even?))
+      expect(all_odd_array.my_none?(&:even?)).to eq(all_odd_array.none?(&:even?))
     end
   end
 
@@ -212,12 +208,6 @@ describe Enumerable do
     end
   end
 
-  # describe '#my_map' do
-  #   it 'my_map should return true for less than 10 element and false than grater than 10 element' do
-  #     expect(array .my_map(my_proc) { |num| num < 10 }).to eq(array .map(my_proc) { |num| num < 10 })
-  #   end
-  # end
-
   describe '#my_inject' do
     it 'my_inject will return the the array + 10' do
       expect(array.my_inject(10) { |accum, elem| accum + elem }).to eq(array.inject(10) { |accum, elem| accum + elem })
@@ -229,11 +219,7 @@ describe Enumerable do
       expect(array.my_inject { |accum, elem| accum + elem }).to eq(array.inject { |accum, elem| accum + elem })
     end
   end
-  # describe '#my_inject' do
-  #   it 'my_inject will return the sum of array with + symbol' do
-  #     expect([1, 2, 3, 4].my_inject('+')).to eq([1, 2, 3, 4].inject('+'))
-  #   end
-  # end
+  
   describe '#my_inject' do
     it 'my_inject will return the multiplication with 2 of array with * symbol' do
       expect(array.my_inject(2, :*)).to eq(array.inject(2, :*))
