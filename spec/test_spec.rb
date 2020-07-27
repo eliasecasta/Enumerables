@@ -5,6 +5,7 @@ describe Enumerable do
   let(:array) { [1, 2, 3, 4, 5, 7, 8, 22, 55, 34, 86] }
   let(:all_odd_array) { [1, 3, 5, 7, 9, 11] }
   let(:negative_array) { [-8, -9, -6] }
+
   describe '#my_each' do
     it 'return an array' do
       expect(array.my_all?(1)).to eq(array.all?(1))
@@ -13,7 +14,7 @@ describe Enumerable do
 
   describe '#my_each_with_index' do
     it 'return the array values' do
-      expect(array.my_each_with_index { |elem, idx| puts "#{elem} : #{idx}" }).to eq(array.each_with_index { |elem, idx| puts "#{elem} : #{idx}" })
+      expect(array.my_each_with_index { |elem, idx| }).to eq(array.each_with_index { |elem, idx| })
     end
   end
 
@@ -212,15 +213,9 @@ describe Enumerable do
     it 'my_inject will return the the array + 10' do
       expect(array.my_inject(10) { |accum, elem| accum + elem }).to eq(array.inject(10) { |accum, elem| accum + elem })
     end
-  end
-
-  describe '#my_inject' do
     it 'my_inject will return the sum of array' do
       expect(array.my_inject { |accum, elem| accum + elem }).to eq(array.inject { |accum, elem| accum + elem })
     end
-  end
-
-  describe '#my_inject' do
     it 'my_inject will return the multiplication with 2 of array with * symbol' do
       expect(array.my_inject(2, :*)).to eq(array.inject(2, :*))
     end
