@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/LineLength
-require_relative '../main.rb'
+require_relative '../enumerable.rb'
 
 describe Enumerable do
   let(:array) { [1, 2, 3, 4, 5, 7, 8, 22, 55, 34, 86] }
