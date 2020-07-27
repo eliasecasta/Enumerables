@@ -4,6 +4,7 @@
 module Enumerable
   def my_each
     return to_enum unless block_given?
+
     array = to_a
     array.length.times { |element| yield(array[element]) }
     self
@@ -11,6 +12,7 @@ module Enumerable
 
   def my_each_with_index
     return to_enum unless block_given?
+
     array = to_a
     array.length.times { |element| yield(array[element], element) }
     self
@@ -18,6 +20,7 @@ module Enumerable
 
   def my_select
     return to_enum unless block_given?
+
     array = []
     my_each { |element| array.push(element) if yield(element) }
     array
@@ -25,8 +28,10 @@ module Enumerable
 
   def my_all?(*arguments)
     return "`my_all?': wrong # of arguments (given #{arguments.length}, expected 0..1)" if arguments.length > 1
+
     if block_given?
       my_each { |element| return false unless yield(element) }
+
     elsif arguments[0].is_a? Class
       my_each { |element| return false unless element.class.ancestors.include?(arguments[0]) }
     elsif arguments[0].is_a? Regexp
@@ -41,6 +46,7 @@ module Enumerable
 
   def my_any?(*arguments)
     return "`my_any?': wrong number of arguments (given #{arguments.length}, expected 0..1)" if arguments.length > 1
+
     if block_given?
       my_each { |element| return true if yield(element) }
     elsif arguments.empty?
@@ -58,6 +64,7 @@ module Enumerable
 
   def my_none?(*arguments)
     return "`my_none?': wrong number of arguments (given #{arguments.length}, expected 0..1)" if arguments.length > 1
+
     if block_given?
       my_each { |element| return false if yield(element) }
     elsif arguments.empty?
@@ -82,12 +89,14 @@ module Enumerable
       to_a.my_each { |element| counter += 1 if element == arguments[0] }
     end
     return "`my_count?': wrong # of arguments (given #{arguments.length}, expected 0..1)" if arguments.length > 1
+
     counter
   end
 
   def my_map(proc = nil)
     arr = []
     return to_enum unless block_given?
+
     if proc
       my_each { |element| arr << proc.call(element) }
     else
@@ -101,14 +110,17 @@ module Enumerable
       accumulator = number
       my_each { |element| accumulator = accumulator.nil? ? element : yield(accumulator, element) }
       raise LocalJumpError unless block_given? || !sym.empty? || !number.empty?
+
       accumulator
     elsif !number.nil? && (number.is_a?(Symbol) || number.is_a?(String))
       raise LocalJumpError unless block_given? || !number.empty?
+
       accumulator = nil
       my_each { |element| accumulator = accumulator.nil? ? element : accumulator.send(number, element) }
       accumulator
     elsif !sym.nil? && (sym.is_a?(Symbol) || sym.is_a?(String))
       raise LocalJumpError unless block_given? || !sym.empty?
+
       accumulator = number
       my_each { |element| accumulator = accumulator.nil? ? element : accumulator.send(sym, element) }
       accumulator
