@@ -8,18 +8,21 @@ module Enumerable
     array.length.times { |element| yield(array[element]) }
     self
   end
+
   def my_each_with_index
     return to_enum unless block_given?
     array = to_a
     array.length.times { |element| yield(array[element], element) }
     self
   end
+
   def my_select
     return to_enum unless block_given?
     array = []
     my_each { |element| array.push(element) if yield(element) }
     array
   end
+
   def my_all?(*arguments)
     return "`my_all?': wrong # of arguments (given #{arguments.length}, expected 0..1)" if arguments.length > 1
     if block_given?
@@ -35,6 +38,7 @@ module Enumerable
     end
     true
   end
+
   def my_any?(*arguments)
     return "`my_any?': wrong number of arguments (given #{arguments.length}, expected 0..1)" if arguments.length > 1
     if block_given?
@@ -51,6 +55,7 @@ module Enumerable
     end
     false
   end
+
   def my_none?(*arguments)
     return "`my_none?': wrong number of arguments (given #{arguments.length}, expected 0..1)" if arguments.length > 1
     if block_given?
@@ -66,6 +71,7 @@ module Enumerable
     end
     true
   end
+
   def my_count(*arguments)
     counter = 0
     if block_given?
@@ -78,6 +84,7 @@ module Enumerable
     return "`my_count?': wrong # of arguments (given #{arguments.length}, expected 0..1)" if arguments.length > 1
     counter
   end
+
   def my_map(proc = nil)
     arr = []
     return to_enum unless block_given?
@@ -88,6 +95,7 @@ module Enumerable
     end
     arr
   end
+
   def my_inject(number = nil, sym = nil)
     if block_given?
       accumulator = number
