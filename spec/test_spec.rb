@@ -224,8 +224,8 @@ describe Enumerable do
     it 'my_inject will return the multiplication with 2 of array with * symbol' do
       expect(array.my_inject(2, :*)).to eq(array.inject(2, :*))
     end
-    it '#my_inject raises a "LocalJumpError" when no block or argument is given Failure/Erro' do
-      expect(array.my_inject).to eq(array.inject)
+    it '#my_inject raises a "LocalJumpError" when no block or argument is given Failure/Error' do
+      expect { array.my_inject }.to raise_error(LocalJumpError)
     end
   end
 end
