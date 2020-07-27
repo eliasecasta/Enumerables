@@ -1,10 +1,10 @@
 # rubocop:disable Metrics/LineLength
 require_relative '../main.rb'
-
+let(:array) { [1, 2, 3, 4, 5, 7, 8, 22, 55, 34, 86] }
 describe Enumerable do
   describe '#my_each' do
     it 'return an array' do
-      expect([1, 1, 1].my_all?(1)).to eq([1, 1, 1].all?(1))
+      expect(array.my_all?(1)).to eq(array.all?(1))
     end
   end
   # describe '#my_count' do
@@ -15,19 +15,19 @@ describe Enumerable do
 
   describe '#my_each_with_index' do
     it 'return the array values' do
-      expect([1, 2, 3].my_each_with_index { |elem, idx| puts "#{elem} : #{idx}" }).to eq([1, 2, 3].each_with_index { |elem, idx| puts "#{elem} : #{idx}" })
+      expect(array.my_each_with_index { |elem, idx| puts "#{elem} : #{idx}" }).to eq(array.each_with_index { |elem, idx| puts "#{elem} : #{idx}" })
     end
   end
 
   describe '#my_select' do
     it 'my_select should return odd array' do
-      expect([1, 2, 3, 8].my_select(&:odd?)).to eq([1, 2, 3, 8].select(&:odd?))
+      expect(array.my_select(&:odd?)).to eq(array.select(&:odd?))
     end
   end
 
   describe '#my_select' do
     it 'my_select should return even array' do
-      expect([1, 2, 3, 8].my_select(&:even?)).to eq([1, 2, 3, 8].select(&:even?))
+      expect(array.my_select(&:even?)).to eq(array.select(&:even?))
     end
   end
 
@@ -92,19 +92,19 @@ describe Enumerable do
 
   describe '#my_any' do
     it 'my_any should return true if 1 is found in array' do
-      expect([1, 2, 3].my_any?(1)).to eq([1, 2, 3].any?(1))
+      expect(array.my_any?(1)).to eq(array.any?(1))
     end
   end
 
   describe '#my_any' do
     it 'my_any should return true if elements are Numeric in array' do
-      expect([1, 2, 3].my_any?(Numeric)).to eq([1, 2, 3].any?(Numeric))
+      expect(array.my_any?(Numeric)).to eq(array.any?(Numeric))
     end
   end
 
   describe '#my_any' do
     it 'my_any should return true if elements are Integer in array' do
-      expect([1, 2, 3].my_any?(Integer)).to eq([1, 2, 3].any?(Integer))
+      expect(array.my_any?(Integer)).to eq(array.any?(Integer))
     end
   end
 
@@ -128,7 +128,7 @@ describe Enumerable do
 
   describe '#my_none' do
     it 'my_none should return true if the elements are not even  ' do
-      expect([3, 5, 4, 7, 11].my_none?(&:even?)).to eq([3, 5, 4, 7, 11].none?(&:even?))
+      expect(array.my_none?(&:even?)).to eq(array.none?(&:even?))
     end
   end
 
@@ -146,19 +146,19 @@ describe Enumerable do
 
   describe '#my_none' do
     it 'my_none should return false beacuse  array is not none ' do
-      expect([1, 2, 3].my_none?).to eq([1, 2, 3].none?)
+      expect(array.my_none?).to eq(array.none?)
     end
   end
 
   describe '#my_none' do
     it 'my_none should return true beacuse  array are string ' do
-      expect([1, 2, 3].my_none?(String)).to eq([1, 2, 3].none?(String))
+      expect(array.my_none?(String)).to eq(array.none?(String))
     end
   end
 
   describe '#my_none' do
     it 'my_none should return false beacuse there is 2 in array' do
-      expect([1, 2, 3, 4, 5].my_none?(2)).to eq([1, 2, 3, 4, 5].none?(2))
+      expect(array.my_none?(2)).to eq(array.none?(2))
     end
   end
 
@@ -170,7 +170,7 @@ describe Enumerable do
 
   describe '#my_count' do
     it 'my_count should return count of even numbers' do
-      expect([1, 4, 3, 8].my_count(&:even?)).to eq([1, 4, 3, 8].count(&:even?))
+      expect(array.my_count(&:even?)).to eq(array.count(&:even?))
     end
   end
 
@@ -188,7 +188,7 @@ describe Enumerable do
 
   describe '#my_count' do
     it 'my_count should return count 1 in array' do
-      expect([1, 1, 1, 2, 3].my_count(1)).to eq([1, 1, 1, 2, 3].count(1))
+      expect(array.my_count(1)).to eq(array.count(1))
     end
   end
 
@@ -200,7 +200,7 @@ describe Enumerable do
 
   describe '#my_map' do
     it 'my_map should return an array of multiply for 2' do
-      expect([1, 2, 3].my_map { |n| 2 * n }).to eq([1, 2, 3].map { |n| 2 * n })
+      expect(array.my_map { |n| 2 * n }).to eq(array.map { |n| 2 * n })
     end
   end
 
@@ -216,31 +216,31 @@ describe Enumerable do
     end
   end
 
-  describe '#my_map' do
-    it 'my_map should return true for less than 10 element and false than grater than 10 element' do
-      expect([18, 22, 5, 6] .my_map(my_proc) { |num| num < 10 }).to eq([18, 22, 5, 6] .map(my_proc) { |num| num < 10 })
-    end
-  end
+  # describe '#my_map' do
+  #   it 'my_map should return true for less than 10 element and false than grater than 10 element' do
+  #     expect(array .my_map(my_proc) { |num| num < 10 }).to eq(array .map(my_proc) { |num| num < 10 })
+  #   end
+  # end
 
   describe '#my_inject' do
     it 'my_inject will return the the array + 10' do
-      expect([1, 2, 3, 4].my_inject(10) { |accum, elem| accum + elem }).to eq([1, 2, 3, 4].inject(10) { |accum, elem| accum + elem })
+      expect(array.my_inject(10) { |accum, elem| accum + elem }).to eq(array.inject(10) { |accum, elem| accum + elem })
     end
   end
 
   describe '#my_inject' do
     it 'my_inject will return the sum of array' do
-      expect([1, 2, 3, 4].my_inject { |accum, elem| accum + elem }).to eq([1, 2, 3, 4].inject { |accum, elem| accum + elem })
+      expect(array.my_inject { |accum, elem| accum + elem }).to eq(array.inject { |accum, elem| accum + elem })
     end
   end
-  describe '#my_inject' do
-    it 'my_inject will return the sum of array with + symbol' do
-      expect([1, 2, 3, 4].my_inject('+')).to eq([1, 2, 3, 4].inject('+'))
-    end
-  end
+  # describe '#my_inject' do
+  #   it 'my_inject will return the sum of array with + symbol' do
+  #     expect([1, 2, 3, 4].my_inject('+')).to eq([1, 2, 3, 4].inject('+'))
+  #   end
+  # end
   describe '#my_inject' do
     it 'my_inject will return the multiplication with 2 of array with * symbol' do
-      expect([1, 2, 3, 4].my_inject(2, :*)).to eq([1, 2, 3, 4].inject(2, :*))
+      expect(array.my_inject(2, :*)).to eq(array.inject(2, :*))
     end
   end
 end
