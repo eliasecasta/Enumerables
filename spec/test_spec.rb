@@ -5,7 +5,7 @@ describe Enumerable do
   let(:array) { [1, 2, 3, 4, 5, 7, 8, 22, 55, 34, 86] }
   let(:all_odd_array) { [1, 3, 5, 7, 9, 11] }
   let(:negative_array) { [-8, -9, -6] }
-
+  let(:false_array) { [1, false, 'hi', []] }
   describe '#my_each' do
     it 'return an array' do
       expect(array.my_all?(1)).to eq(array.all?(1))
@@ -42,6 +42,11 @@ describe Enumerable do
     end
   end
 
+  describe '#my_all' do
+    it 'my_all should return true if all values are neagtive' do
+      expect(false_array.my_all?).to eq(false_array.all?)
+    end
+  end
   describe '#my_any' do
     it 'my_any should return true if values are even' do
       expect(array.my_any?(&:even?)).to eq(array.any?(&:even?))
@@ -218,6 +223,9 @@ describe Enumerable do
     end
     it 'my_inject will return the multiplication with 2 of array with * symbol' do
       expect(array.my_inject(2, :*)).to eq(array.inject(2, :*))
+    end
+    it '#my_inject raises a "LocalJumpError" when no block or argument is given Failure/Erro' do
+      expect(array.my_inject).to eq(array.inject)
     end
   end
 end
