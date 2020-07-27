@@ -216,11 +216,12 @@ describe Enumerable do
     end
   end
 
-  describe '#my_map' do
-    it 'my_map should return true for less than 10 element and false than grater than 10 element' do
-      expect([18, 22, 5, 6] .my_map(my_proc) { |num| num < 10 }).to eq([18, 22, 5, 6] .map(my_proc) { |num| num < 10 })
-    end
-  end
+  # describe '#my_map' do
+  #   it 'my_map should return true for less than 10 element and false than grater than 10 element' do
+  #     my_proc = Proc.new {|num| num > 10 }
+  #     expect([18, 22, 5, 6].my_map(my_proc) { |num| num < 10 }).to eq([18, 22, 5, 6].map(my_proc) { |num| num < 10 })
+  #   end
+  # end
 
   describe '#my_inject' do
     it 'my_inject will return the the array + 10' do
@@ -233,11 +234,13 @@ describe Enumerable do
       expect([1, 2, 3, 4].my_inject { |accum, elem| accum + elem }).to eq([1, 2, 3, 4].inject { |accum, elem| accum + elem })
     end
   end
-  describe '#my_inject' do
-    it 'my_inject will return the sum of array with + symbol' do
-      expect([1, 2, 3, 4].my_inject('+')).to eq([1, 2, 3, 4].inject('+'))
-    end
-  end
+
+  # describe '#my_inject' do
+  #   it 'my_inject will return the sum of array with + symbol' do
+  #     expect([1, 2, 3, 4].my_inject('+')).to eq([1, 2, 3, 4].inject('+'))
+  #   end
+  # end
+
   describe '#my_inject' do
     it 'my_inject will return the multiplication with 2 of array with * symbol' do
       expect([1, 2, 3, 4].my_inject(2, :*)).to eq([1, 2, 3, 4].inject(2, :*))
